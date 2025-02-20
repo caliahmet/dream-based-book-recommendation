@@ -5,13 +5,19 @@ from keybert import KeyBERT
 from transformers import pipeline
 from torch.nn.functional import cosine_similarity
 
-# Load models
-sbert_model = SentenceTransformer("all-mpnet-base-v2")
-theme_extractor = KeyBERT()
-emotion_model = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", top_k=2)
 
 # Load precomputed book embeddings
-df = pd.read_pickle("../data/books_with_embeddings.pkl")
+df = pd.read_pickle("data/books_with_embeddings.pkl")
+
+# Load models
+@st.cache_resource
+def load_models():
+    sbert_model = SentenceTransformer("all-mpnet-base-v2")
+    theme_extractor = KeyBERT()
+    emotion_model = pipeline("text-classification", 
+                           model="j-hartmann/emotion-english-distilroberta-base", 
+                           top_k=2)
+    return sbert_model, theme_extractor, emotion_model
 
 # Function to extract themes
 def extract_themes(text):
@@ -49,7 +55,7 @@ if __name__ == '__main__':
     # Streamlit App
     st.set_page_config(page_title="Book Recommender")
     st.title("Read What You Dream")
-
+    sbert_model, theme_extractor, emotion_model = load_models()
     dream_input = st.text_area("Describe your dream:")
     if st.button("Find Books"):
         if dream_input.strip():
