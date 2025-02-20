@@ -9,5 +9,6 @@ There are 7 possible emotions in this program.
 5. Neutral
 6. Sadness
 7. Surprise
+
 It uses cosine similarity between books and user's inputs and recommend top 5 similar books.
 This program is designed only to provide a spark for more advanced programs.
