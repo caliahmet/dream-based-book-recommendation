@@ -47,6 +47,7 @@ def recommend_books(user_embedding, df, top_n=5):
 
 if __name__ == '__main__':
     # Streamlit App
+    st.set_page_config(page_title="Book Recommender")
     st.title("Read What You Dream")
 
     dream_input = st.text_area("Describe your dream:")
