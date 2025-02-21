@@ -13,7 +13,7 @@ df = pd.read_pickle("data/books_with_embeddings.pkl")
 @st.cache_resource
 def load_models():
     sbert_model = SentenceTransformer("all-mpnet-base-v2")
-    theme_extractor = KeyBERT()
+    theme_extractor = KeyBERT(sbert_model)
     emotion_model = pipeline("text-classification", 
                            model="j-hartmann/emotion-english-distilroberta-base", 
                            top_k=2)
